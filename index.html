@@ -1,195 +1,402 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dự Án: Hệ Thống Điều Khiển Thông Minh</title>
-    <!-- Tích hợp Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Tích hợp Font Google (Inter) -->
+    <title>Project | Smart Farm 4.0</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://css.gg/css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
     <style>
-        /* Áp dụng font Inter cho toàn bộ trang */
-        body {
-            font-family: 'Inter', sans-serif;
+        :root {
+            --primary-color: #00ffab; /* Tech mint green */
+            --background-color: #0f172a; /* Dark blue-black */
+            --card-background: rgba(30, 41, 59, 0.5); /* Frosted glass background */
+            --text-color: #e2e8f0; /* Light gray */
+            --heading-color: #ffffff;
+            --border-color: rgba(0, 255, 171, 0.2);
+            --shadow-color: rgba(0, 255, 171, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
             scroll-behavior: smooth;
         }
-        .section-title {
-            border-left: 4px solid #3b82f6; /* blue-500 */
-            padding-left: 1rem;
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            background-image:
+                radial-gradient(circle at 1% 1%, var(--primary-color) 0.5px, transparent 0),
+                radial-gradient(circle at 25% 15%, var(--primary-color) 0.5px, transparent 0);
+            background-size: 50px 50px;
         }
-        /* Style cho sơ đồ ASCII */
-        pre {
-            white-space: pre;
-            font-family: 'Courier New', Courier, monospace;
-            line-height: 1.2;
-            font-size: 0.9rem;
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0) 0%, var(--background-color) 100%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            color: var(--heading-color);
+            font-weight: 700;
+            text-shadow: 0 0 15px var(--shadow-color);
+        }
+
+        .hero h1 span {
+            color: var(--primary-color);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin: 1rem 0 2rem;
+            max-width: 600px;
+        }
+
+        .cta-button {
+            background: var(--primary-color);
+            color: var(--background-color);
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px var(--shadow-color);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px var(--shadow-color);
+        }
+
+        /* --- Sections --- */
+        .section {
+            padding: 6rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--heading-color);
+            font-weight: 600;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--primary-color);
+            margin: 0.5rem auto 0;
+            border-radius: 2px;
+        }
+        
+        /* --- Glass Card Style --- */
+        .card {
+            background: var(--card-background);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-5px);
+        }
+
+        /* --- Grid Layout --- */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .grid-card {
+            text-align: center;
+        }
+        
+        .grid-card .icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px var(--primary-color);
+        }
+
+        .grid-card h3 {
+            font-size: 1.5rem;
+            color: var(--heading-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        /* --- Architecture Diagram --- */
+        .architecture-diagram-flow {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem; /* Increased gap for better spacing */
+            font-family: 'monospace';
+            padding: 2rem 1rem;
+        }
+
+        .arch-box {
+            background: var(--card-background);
+            border: 1px solid var(--border-color);
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+            min-width: 140px; /* Ensure boxes don't get too small */
+        }
+        
+        .arch-box:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .arch-connector {
+            font-size: 1.75rem;
+            color: var(--primary-color);
+            text-align: center;
+            padding: 0 0.5rem;
+        }
+        .arch-connector small {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--text-color);
+            font-weight: bold;
+            margin-top: -5px;
+        }
+        
+        .arch-connector i {
+            animation: pulse 2.5s infinite ease-in-out;
+        }
+        
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* --- Animations --- */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); text-shadow: 0 0 5px var(--shadow-color); }
+            50% { transform: scale(1.1); text-shadow: 0 0 15px var(--shadow-color); }
+            100% { transform: scale(1); text-shadow: 0 0 5px var(--shadow-color); }
+        }
+
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body>
 
-    <!-- Header -->
-    <header class="bg-white shadow-md sticky top-0 z-10">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-blue-600">Dự Án Của Tôi</h1>
-            <nav class="hidden md:flex space-x-8 text-gray-600 font-semibold">
-                <a href="#overview" class="hover:text-blue-600">Tổng Quan</a>
-                <a href="#components" class="hover:text-blue-600">Công Nghệ</a>
-                <a href="#workflow" class="hover:text-blue-600">Luồng Hoạt Động</a>
-                <a href="#applications" class="hover:text-blue-600">Ứng Dụng</a>
-            </nav>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Future <span>Smart Farm</span></h1>
+            <p>Integrating IoT and Data Analytics to reshape the future of agriculture.</p>
+            <a href="#about" class="cta-button">Explore Project</a>
         </div>
-    </header>
+    </section>
 
-    <!-- Container chính -->
-    <div class="container mx-auto px-6 py-16">
-
-        <!-- Phần giới thiệu chính -->
-        <section class="text-center mb-20" id="intro">
-            <h2 class="text-3xl md:text-5xl font-extrabold text-gray-900 mb-4">Hệ thống Điều khiển Công nghiệp Thông minh</h2>
-            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                Kết hợp dữ liệu thời tiết từ <span class="font-bold text-blue-600">NASA</span>, giao diện web trực quan và <span class="font-bold text-blue-600">Node-RED</span> để tự động hóa và điều khiển các thiết bị <span class="font-bold text-blue-600">PLC</span> một cách hiệu quả.
-            </p>
-        </section>
-
-        <!-- Tổng quan -->
-        <section class="mb-20" id="overview">
-            <h3 class="text-3xl font-bold mb-6 section-title">Tổng Quan Dự Án 🎯</h3>
-            <div class="bg-white p-8 rounded-lg shadow-lg">
-                <p class="text-lg leading-relaxed">
-                    Mục tiêu cốt lõi của dự án là xây dựng một hệ thống có khả năng tự động thu thập dữ liệu thời tiết theo thời gian thực từ kho dữ liệu uy tín của NASA, hiển thị trực quan các dữ liệu đó trên một website tích hợp trò chơi thân thiện nhằm truyền tải những thông tin hữu ích về những loại cây trồng và vật nuôi, cho phép người dùng ra quyết định và gửi lệnh điều khiển từ trang web đến các thiết bị công nghiệp (PLC).Người chơi điều khiển các các quy trình công nghiệp dựa trên dữ liệu thời tiết cụ thể. Từ đó rút ra những kinh nghiệm, thách thức trong nông nghiệp. <b>HƯỚNG TỚI PHÁT TRIỂN BỀN VỮNG</b>
+    <main class="container">
+        <section id="about" class="section fade-in-section">
+            <h2 class="section-title">Project Overview</h2>
+            <div class="card">
+                <p>
+                    The <strong>Future Smart Farm</strong> project is a comprehensive solution that applies the latest technologies to build an automated, precise, and efficient farm management system.
+The system's key innovation lies in its ability to intelligently combine two powerful data streams: real-time environmental data collected directly from the farm and predictive data from the NASA GMAO model (via Open-Meteo). By synthesizing these two streams of information, the system automatically provides optimal solutions and farming choices, enabling proactive, efficient operations that are ready to adapt to weather changes.
                 </p>
-                 <!-- Sơ đồ luồng dữ liệu chi tiết (Cấp 1) -->
-                 <div class="bg-gray-800 text-green-400 font-mono p-4 rounded-lg mt-6 overflow-x-auto text-sm">
-<pre>
-                    Dữ liệu API
-+----------+ ---------------------> +-------------------+
-|          |                        |  1.0 Script Python|-----> || D1: CSDL MySQL ||
-| NASA API |                        |  (Thu thập DL)    |       +------------------+
-|          |                        +-------------------+                    ^      |
-+----------+                                                                 |      | Dữ liệu thời tiết
-                                                                  (Lưu trữ)   |      | (để hiển thị)
-                                                                             |      v
-+--------------+   Lệnh điều khiển   +-------------------+ <----(Đọc)---------+------------------+
-|              | -------------------> |                   |                                    |
-|  NGƯỜI DÙNG  |                      | 2.0 Website (PHP) |                                    |
-|              | <------------------- |                   | ---------------------------------> +--------------------+
-+--------------+  Hiển thị/Trò chơi  +-------------------+   Lệnh (HTTP Request)                |  3.0 Node-RED      |
-                                                                                               | (Xử lý logic)      |
-                                                                                               +--------------------+
-                                                                                                         |
-                                                                                                         | Lệnh điều khiển PLC
-                                                                                                         v
-                                                                                             +------------------------+
-                                                                                             |       4.0 PLC          |
-                                                                                             | (Thực thi lệnh)        |
-                                                                                             +------------------------+
-                                                                                                         |
-                                                                                                         | Tín hiệu vật lý
-                                                                                                         v
-                                                                                          +------------------------+
-                                                                                          |  THIẾT BỊ CÔNG NGHIỆP  |
-                                                                                          +------------------------+
-</pre>
+            </div>
+        </section>
+
+        <section id="architecture" class="section fade-in-section">
+            <h2 class="section-title">System Flow</h2>
+            <div class="card">
+                <div class="architecture-diagram-flow">
+                    
+                    <div class="arch-box"><strong>Python</strong></div>
+                    <div class="arch-connector">
+                        <i class="fas fa-arrow-right"></i>
+                        <small>Data Input</small>
+                    </div>
+
+                    <div class="arch-box"><strong>MySQL</strong><br>(XAMPP)</div>
+                    <div class="arch-connector">
+                        <i class="fas fa-arrow-right"></i>
+                        <small>Display</small>
+                    </div>
+
+                    <div class="arch-box"><strong>PHP</strong></div>
+                     <div class="arch-connector">
+                        <i class="fas fa-arrow-right"></i>
+                        <small>Interaction</small>
+                    </div>
+
+                    <div class="arch-box"><strong>JavaScript</strong><br>(UI)</div>
+                    <div class="arch-connector">
+                        <i class="fas fa-arrow-right"></i>
+                        <small>Command</small>
+                    </div>
+
+                    <div class="arch-box"><strong>Node-RED</strong></div>
+                     <div class="arch-connector">
+                        <i class="fas fa-arrow-right"></i>
+                        <small>Execution</small>
+                    </div>
+
+                    <div class="arch-box"><strong>PLC S7-1200</strong></div>
+
                 </div>
             </div>
         </section>
 
-        <!-- Các thành phần công nghệ -->
-        <section class="mb-20" id="components">
-            <h3 class="text-3xl font-bold mb-8 section-title">Các Thành Phần Công Nghệ 🛠️</h3>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Python Card -->
-                <div class="bg-white p-6 rounded-lg shadow-lg border-t-4 border-green-500">
-                    <h4 class="text-xl font-bold mb-2">1. Python: Thu Thập Dữ Liệu</h4>
-                    <p>Script Python kết nối với API của NASA để lấy dữ liệu thời tiết (nhiệt độ, độ ẩm, gió...) và lưu trữ chúng một cách có hệ thống vào cơ sở dữ liệu MySQL.</p>
+        <section id="tech-stack" class="section fade-in-section">
+            <h2 class="section-title">Technology Stack</h2>
+            <div class="grid-layout">
+                <div class="card grid-card">
+                    <div class="icon"><i class="fas fa-cloud-download-alt"></i></div>
+                    <h3>Cloud Data & APIs</h3>
+                    <p>Leverages powerful APIs like the <strong>NASA GMAO Model via Open-Meteo</strong> to fetch real-time and forecasted weather data. This includes crucial parameters like <strong>temperature, humidity, precipitation, and solar radiation,</strong> providing the critical input for predictive analysis and intelligent automation.</p>
                 </div>
-                 <!-- XAMPP Card -->
-                <div class="bg-white p-6 rounded-lg shadow-lg border-t-4 border-orange-500">
-                    <h4 class="text-xl font-bold mb-2">2. XAMPP: Nền Tảng</h4>
-                    <p>Cung cấp môi trường máy chủ cục bộ hoàn chỉnh, bao gồm Apache Web Server để chạy website và MySQL Server để lưu trữ toàn bộ dữ liệu thời tiết.</p>
+                <div class="card grid-card">
+                    <div class="icon"><i class="fab fa-python"></i></div>
+                    <h3>Python</h3>
+                    <p>Used to write powerful scripts that automatically collect data from the cloud APIs and insert it into the local database for processing and display.</p>
                 </div>
-                <!-- Web Card -->
-                <div class="bg-white p-6 rounded-lg shadow-lg border-t-4 border-blue-500">
-                    <h4 class="text-xl font-bold mb-2">3. Website: Trung Tâm Chỉ Huy</h4>
-                    <p>Sử dụng HTML/CSS/JS và PHP để tạo giao diện người dùng, hiển thị dữ liệu từ MySQL và gửi lệnh điều khiển khi người dùng tương tác.</p>
+                <div class="card grid-card">
+                    <div class="icon"><i class="fas fa-server"></i></div>
+                    <h3>PHP & MySQL (XAMPP)</h3>
+                    <p>Provides a solid backend to pull data from the MySQL database and serve it to the frontend, while also handling user authentication and other server-side tasks.</p>
                 </div>
-                <!-- Node-RED Card -->
-                <div class="bg-white p-6 rounded-lg shadow-lg border-t-4 border-red-500">
-                    <h4 class="text-xl font-bold mb-2">4. Node-RED: Trái Tim Xử Lý</h4>
-                    <p>Nhận lệnh từ website, xử lý logic (có thể kết hợp thêm điều kiện), và chuyển đổi thành ngôn ngữ mà PLC có thể hiểu được.</p>
+                <div class="card grid-card">
+                    <div class="icon"><i class="fas fa-code"></i></div>
+                    <h3>HTML / CSS / JS</h3>
+                    <p>Builds the modern user interface that displays data fetched by PHP and sends user commands via JavaScript to the control layer of the system.</p>
                 </div>
-                <!-- PLC Card -->
-                <div class="bg-white p-6 rounded-lg shadow-lg border-t-4 border-gray-500">
-                    <h4 class="text-xl font-bold mb-2">5. PLC: Cánh Tay Thực Thi</h4>
-                    <p>Là bộ não của máy móc công nghiệp, nhận lệnh cuối cùng từ Node-RED và thực thi các hành động trong thế giới thực (bật/tắt động cơ, van...).</p>
+                <div class="card grid-card">
+                    <div class="icon"><i class="fas fa-project-diagram"></i></div>
+                    <h3>Node-RED</h3>
+                    <p>Acts as the central messaging and logic hub. It receives commands from the web interface and translates them into instructions for the PLC hardware.</p>
                 </div>
-            </div>
-        </section>
-
-        <!-- Luồng hoạt động -->
-        <section class="mb-20" id="workflow">
-            <h3 class="text-3xl font-bold mb-8 section-title">Luồng Hoạt Động ⛓️</h3>
-            <div class="bg-white p-8 rounded-lg shadow-lg">
-                <ol class="relative border-l border-gray-200">
-                    <li class="mb-10 ml-6">
-                        <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -left-3 ring-8 ring-white"><i class="gg-cloud"></i></span>
-                        <h4 class="font-bold">1. Thu thập & Lưu trữ</h4>
-                        <p>Python lấy dữ liệu từ NASA và lưu vào MySQL (XAMPP).</p>
-                    </li>
-                    <li class="mb-10 ml-6">
-                        <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -left-3 ring-8 ring-white"><i class="gg-website"></i></span>
-                        <h4 class="font-bold">2. Hiển thị & Tương tác</h4>
-                        <p>Người dùng truy cập Website. PHP đọc dữ liệu từ DB để hiển thị. Người dùng nhấn nút điều khiển.</p>
-                    </li>
-                    <li class="mb-10 ml-6">
-                        <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -left-3 ring-8 ring-white"><i class="gg-share"></i></span>
-                        <h4 class="font-bold">3. Gửi & Xử lý Lệnh</h4>
-                        <p>JavaScript gửi yêu cầu đến Node-RED. Node-RED xử lý logic.</p>
-                    </li>
-                    <li class="ml-6">
-                        <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -left-3 ring-8 ring-white"><i class="gg-terminal"></i></span>
-                        <h4 class="font-bold">4. Điều khiển & Thực thi</h4>
-                        <p>Node-RED gửi lệnh đến PLC. PLC thực thi hành động vật lý.</p>
-                    </li>
-                </ol>
-            </div>
-        </section>
-
-        <!-- Ứng dụng -->
-        <section id="applications">
-            <h3 class="text-3xl font-bold mb-8 section-title">Ứng Dụng Thực Tiễn 🌍</h3>
-            <div class="grid md:grid-cols-2 gap-6">
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h4 class="font-bold text-lg">Nông nghiệp thông minh</h4>
-                    <p>Tự động tưới tiêu dựa trên dự báo mưa và độ ẩm đất.</p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h4 class="font-bold text-lg">Quản lý năng lượng</h4>
-                    <p>Điều khiển hệ thống làm mát/sưởi ấm tòa nhà theo nhiệt độ ngoài trời.</p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h4 class="font-bold text-lg">An toàn lao động</h4>
-                    <p>Cảnh báo và dừng thiết bị ngoài trời khi có gió lớn.</p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h4 class="font-bold text-lg">Năng lượng tái tạo</h4>
-                    <p>Tối ưu hóa hướng tấm pin mặt trời theo dữ liệu bức xạ.</p>
+                <div class="card grid-card">
+                    <div class="icon"><i class="fas fa-robot"></i></div>
+                    <h3>PLC S7-1200</h3>
+                    <p>The on-site control brain that reliably executes commands from Node-RED, controlling physical hardware like pumps, fans, and lights with industrial precision.</p>
                 </div>
             </div>
         </section>
+        
+        <section id="references" class="section fade-in-section">
+            <h2 class="section-title">Data & Reference Sources</h2>
+            <div class="grid-layout">
+                <div class="card grid-card">
+                    <h3>Vietnam Academy of Agricultural Sciences (VAAS)</h3>
+                    <p>A leading research institution providing in-depth knowledge of agricultural science, animal husbandry, and cattle breeds in Vietnam.</p>
+                </div>
+                <div class="card grid-card">
+                    <h3>Ministry of Agriculture & Rural Development</h3>
+                    <p>Provides official information on policies, markets, and advanced farming and animal husbandry techniques.</p>
+                </div>
+                <div class="card grid-card">
+                    <h3>Food and Agriculture Organization (FAO)</h3>
+                    <p>Offers global data, analysis, and reports on agriculture, food security, and the cattle industry.</p>
+                </div>
+                <div class="card grid-card">
+                    <h3>National Geographic</h3>
+                    <p>A source of general information on the biological characteristics, habitats, and behaviors of animal species, including cattle.</p>
+                </div>
+                <div class="card grid-card">
+                    <h3>Scientific Journals & Articles</h3>
+                    <p>Academic materials from reputable sources like the Journal of Integrative Agriculture, Agricultural Journal, and the ScienceDirect database.</p>
+                </div>
+            </div>
+        </section>
+    </main>
 
-    </div>
-
-    <!-- Chân trang -->
-    <footer class="text-center py-8 bg-gray-800 text-white mt-16">
-        <p>Một dự án kết hợp IoT, Dữ liệu đám mây và Tự động hóa công nghiệp.</p>
+    <footer>
+        <p>&copy; 2025 Future Smart Farm</p>
     </footer>
 
+    <script>
+        // JavaScript for fade-in effect on scroll
+        const sections = document.querySelectorAll('.fade-in-section');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+    </script>
 </body>
 </html>
-
