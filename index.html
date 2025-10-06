@@ -7,19 +7,20 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
     <style>
         :root {
-            --primary-color: #00ffab; /* Tech mint green */
-            --background-color: #0f172a; /* Dark blue-black */
-            --card-background: rgba(30, 41, 59, 0.5); /* Frosted glass background */
-            --text-color: #e2e8f0; /* Light gray */
-            --heading-color: #ffffff;
+            --primary-color: #00ffab;
+            --background-color: #0a101f;
+            --card-background: rgba(30, 41, 59, 0.4);
+            --text-color: #cdd6f4;
+            --heading-color: #e2e8f0;
             --border-color: rgba(0, 255, 171, 0.2);
             --shadow-color: rgba(0, 255, 171, 0.1);
+            --glow-color: rgba(0, 255, 171, 0.5);
         }
 
         * {
@@ -36,10 +37,12 @@
             font-family: 'Poppins', sans-serif;
             background-color: var(--background-color);
             color: var(--text-color);
+            overflow-x: hidden;
             background-image:
-                radial-gradient(circle at 1% 1%, var(--primary-color) 0.5px, transparent 0),
-                radial-gradient(circle at 25% 15%, var(--primary-color) 0.5px, transparent 0);
-            background-size: 50px 50px;
+                linear-gradient(rgba(0, 255, 171, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 171, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+            animation: moveGrid 20s linear infinite;
         }
 
         .container {
@@ -48,9 +51,60 @@
             padding: 0 20px;
         }
 
+        /* --- Header --- */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(10, 16, 31, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            transition: top 0.3s;
+        }
+
+        .logo {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1.5rem;
+            color: var(--heading-color);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .logo span {
+            color: var(--primary-color);
+        }
+
+        .navbar a {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            margin-left: 35px;
+            transition: 0.3s;
+        }
+
+        .navbar a:hover, .navbar a.active {
+            color: var(--primary-color);
+        }
+        
+        #menu-icon {
+            font-size: 2rem;
+            color: var(--heading-color);
+            cursor: pointer;
+            display: none;
+        }
+
+
         /* --- Hero Section --- */
         .hero {
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -61,54 +115,75 @@
             overflow: hidden;
         }
         
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
         .hero::before {
             content: '';
             position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: linear-gradient(180deg, rgba(15, 23, 42, 0) 0%, var(--background-color) 100%);
+            bottom: 0; left: 0;
+            width: 100%; height: 200px;
+            background: linear-gradient(180deg, rgba(10, 16, 31, 0) 0%, var(--background-color) 100%);
             z-index: 1;
         }
 
         .hero-content {
             position: relative;
             z-index: 2;
-            animation: fadeIn 1.5s ease-in-out;
+            animation: fadeIn 1.5s 0.5s ease-in-out forwards;
+            opacity: 0;
         }
 
         .hero h1 {
-            font-size: 4rem;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 4.5rem;
             color: var(--heading-color);
             font-weight: 700;
-            text-shadow: 0 0 15px var(--shadow-color);
+            text-shadow: 0 0 20px var(--shadow-color);
         }
-
-        .hero h1 span {
+        
+        .hero h1 .typing-effect {
             color: var(--primary-color);
+            border-right: .15em solid var(--primary-color);
+            white-space: nowrap;
+            overflow: hidden;
+            animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
         }
 
         .hero p {
             font-size: 1.25rem;
-            margin: 1rem 0 2rem;
-            max-width: 600px;
+            margin: 1.5rem 0 2.5rem;
+            max-width: 650px;
         }
 
         .cta-button {
-            background: var(--primary-color);
-            color: var(--background-color);
+            background: transparent;
+            color: var(--primary-color);
             padding: 1rem 2.5rem;
-            border: none;
+            border: 2px solid var(--primary-color);
             border-radius: 50px;
             font-weight: 600;
             text-decoration: none;
             transition: all 0.3s ease;
             box-shadow: 0 0 20px var(--shadow-color);
+            position: relative;
+            overflow: hidden;
+            margin: 0 0.5rem;
         }
 
         .cta-button:hover {
+            color: var(--background-color);
+            background: var(--primary-color);
+            box-shadow: 0 0 30px var(--glow-color);
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px var(--shadow-color);
         }
+
 
         /* --- Sections --- */
         .section {
@@ -117,7 +192,7 @@
         
         .section-title {
             text-align: center;
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             margin-bottom: 3rem;
             color: var(--heading-color);
             font-weight: 600;
@@ -131,23 +206,52 @@
             background: var(--primary-color);
             margin: 0.5rem auto 0;
             border-radius: 2px;
+            box-shadow: 0 0 10px var(--glow-color);
         }
         
-        /* --- Glass Card Style --- */
+        /* --- Glass Card Style with Glow Effect --- */
         .card {
             background: var(--card-background);
             border: 1px solid var(--border-color);
             border-radius: 15px;
-            padding: 2rem;
+            padding: 2.5rem;
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            height: 100%; /* Make cards in a row equal height */
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 150%;
+            height: 150%;
+            background: radial-gradient(circle at center, var(--glow-color) 0%, transparent 40%);
+            transform: translate(-25%, -25%) scale(0);
+            transition: transform 0.7s ease;
+            opacity: 0;
+            z-index: 0;
+        }
+
+        .card:hover::before {
+            transform: translate(-25%, -25%) scale(1);
+            opacity: 1;
+        }
+        
+        .card > * {
+            position: relative;
+            z-index: 1;
         }
 
         .card:hover {
             border-color: var(--primary-color);
-            transform: translateY(-5px);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
         }
 
         /* --- Grid Layout --- */
@@ -159,19 +263,26 @@
 
         .grid-card {
             text-align: center;
+            display: flex;
+            flex-direction: column;
         }
         
         .grid-card .icon {
             font-size: 3rem;
             color: var(--primary-color);
-            margin-bottom: 1rem;
-            text-shadow: 0 0 10px var(--primary-color);
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 15px var(--glow-color);
+            transition: transform 0.3s ease;
+        }
+        
+        .grid-card:hover .icon {
+            transform: scale(1.2) rotate(-10deg);
         }
 
         .grid-card h3 {
             font-size: 1.5rem;
             color: var(--heading-color);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
         }
         
         /* --- Architecture Diagram --- */
@@ -180,39 +291,42 @@
             flex-wrap: wrap;
             justify-content: center;
             align-items: center;
-            gap: 1.5rem; /* Increased gap for better spacing */
-            font-family: 'monospace';
+            gap: 1rem;
+            font-family: 'Roboto Mono', monospace;
             padding: 2rem 1rem;
         }
 
         .arch-box {
             background: var(--card-background);
             border: 1px solid var(--border-color);
-            padding: 1rem 1.5rem;
+            padding: 1.2rem 1.8rem;
             border-radius: 10px;
             text-align: center;
             flex-shrink: 0;
             transition: all 0.3s ease;
-            min-width: 140px; /* Ensure boxes don't get too small */
+            min-width: 150px;
         }
         
         .arch-box:hover {
             border-color: var(--primary-color);
             color: var(--primary-color);
+            transform: scale(1.05);
+            box-shadow: 0 0 15px var(--shadow-color);
         }
         
         .arch-connector {
-            font-size: 1.75rem;
+            font-size: 2rem;
             color: var(--primary-color);
             text-align: center;
             padding: 0 0.5rem;
+            flex-shrink: 0;
         }
         .arch-connector small {
             display: block;
             font-size: 0.75rem;
             color: var(--text-color);
             font-weight: bold;
-            margin-top: -5px;
+            margin-top: -8px;
         }
         
         .arch-connector i {
@@ -222,50 +336,145 @@
         /* --- Footer --- */
         footer {
             text-align: center;
-            padding: 2rem 0;
+            padding: 2.5rem 0;
             margin-top: 4rem;
             border-top: 1px solid var(--border-color);
         }
 
         /* --- Animations --- */
+        @keyframes moveGrid {
+            from { background-position: 0 0; }
+            to { background-position: -30px -30px; }
+        }
+        
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Typing animation */
+        @keyframes typing {
+          from { width: 0 }
+          to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+          from, to { border-color: transparent }
+          50% { border-color: var(--primary-color); }
         }
 
         @keyframes pulse {
             0% { transform: scale(1); text-shadow: 0 0 5px var(--shadow-color); }
-            50% { transform: scale(1.1); text-shadow: 0 0 15px var(--shadow-color); }
+            50% { transform: scale(1.2); text-shadow: 0 0 20px var(--glow-color); }
             100% { transform: scale(1); text-shadow: 0 0 5px var(--shadow-color); }
         }
 
-        .fade-in-section {
+        .animate-on-scroll {
             opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            transform: translateY(50px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
-
-        .fade-in-section.is-visible {
+        .animate-on-scroll.is-visible {
             opacity: 1;
             transform: translateY(0);
+        }
+        
+        /* Staggered animation for grid items */
+        .grid-layout .card {
+             transition-delay: calc(0.1s * var(--i));
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            #menu-icon {
+                display: block;
+            }
+            .navbar {
+                position: absolute;
+                top: 100%;
+                left: -100%;
+                width: 100%;
+                padding: 1rem 5%;
+                background: var(--background-color);
+                border-top: 1px solid var(--border-color);
+                transition: .3s;
+            }
+            .navbar.active {
+                left: 0;
+            }
+            .navbar a {
+                display: block;
+                font-size: 1.2rem;
+                margin: 2rem 0;
+            }
+
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            .hero p {
+                font-size: 1.1rem;
+            }
+            .hero .cta-button {
+                 padding: 0.8rem 1.8rem;
+                 margin-bottom: 1rem;
+            }
+            
+            .architecture-diagram-flow {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .arch-connector {
+                transform: rotate(90deg);
+                margin: 1rem 0;
+            }
+        }
+        
+        @media (max-width: 480px) {
+             .hero h1 {
+                font-size: 2.2rem;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+            .card {
+                padding: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
+    <div id="particles-js"></div>
+    
+    <header class="header">
+        <a href="#" class="logo">SmartFarm<span>4.0</span></a>
+        <i class="fa-solid fa-bars" id="menu-icon"></i>
+        <nav class="navbar">
+            <a href="#about" class="active">Overview</a>
+            <a href="#architecture">Flow</a>
+            <a href="#tech-stack">Stack</a>
+            <a href="#references">References</a>
+        </nav>
+    </header>
 
     <section class="hero">
         <div class="hero-content">
-            <h1>Future <span>Smart Farm</span></h1>
+            <h1>Future <span class="typing-effect">Smart Farm</span></h1>
             <p>Integrating IoT and Data Analytics to reshape the future of agriculture.</p>
             <a href="#about" class="cta-button">Explore Project</a>
-            <a href="https://github.com/II-Max/NASA-Farm-Navigators-Using-NASA-Data-Exploration-in-Agriculture" class="cta-button">Full Project Data</a>
+            <a href="https://github.com/II-Max/NASA-Farm-Navigators-Using-NASA-Data-Exploration-in-Agriculture" target="_blank" class="cta-button">GitHub Repo</a>
         </div>
     </section>
 
     <main class="container">
-        <section id="about" class="section fade-in-section">
-            <h2 class="section-title">Project Overview</h2>
-            <div class="card">
+        <section id="about" class="section">
+            <h2 class="section-title animate-on-scroll">Project Overview</h2>
+            <div class="card animate-on-scroll">
                 <p>
                     The <strong>Future Smart Farm</strong> project is a comprehensive solution that applies the latest technologies to build an automated, precise, and efficient farm management system.
 The system's key innovation lies in its ability to intelligently combine two powerful data streams: real-time environmental data collected directly from the farm and predictive data from the NASA GMAO model (via Open-Meteo). By synthesizing these two streams of information, the system automatically provides optimal solutions and farming choices, enabling proactive, efficient operations that are ready to adapt to weather changes.
@@ -273,76 +482,54 @@ The system's key innovation lies in its ability to intelligently combine two pow
             </div>
         </section>
 
-        <section id="architecture" class="section fade-in-section">
-            <h2 class="section-title">System Flow</h2>
-            <div class="card">
+        <section id="architecture" class="section">
+            <h2 class="section-title animate-on-scroll">System Flow</h2>
+            <div class="card animate-on-scroll">
                 <div class="architecture-diagram-flow">
-                    
                     <div class="arch-box"><strong>Python</strong></div>
-                    <div class="arch-connector">
-                        <i class="fas fa-arrow-right"></i>
-                        <small>Data Input</small>
-                    </div>
-
+                    <div class="arch-connector"><i class="fas fa-arrow-right"></i><small>Data Input</small></div>
                     <div class="arch-box"><strong>MySQL</strong><br>(XAMPP)</div>
-                    <div class="arch-connector">
-                        <i class="fas fa-arrow-right"></i>
-                        <small>Display</small>
-                    </div>
-
+                    <div class="arch-connector"><i class="fas fa-arrow-right"></i><small>Display</small></div>
                     <div class="arch-box"><strong>PHP</strong></div>
-                     <div class="arch-connector">
-                        <i class="fas fa-arrow-right"></i>
-                        <small>Interaction</small>
-                    </div>
-
+                     <div class="arch-connector"><i class="fas fa-arrow-right"></i><small>Interaction</small></div>
                     <div class="arch-box"><strong>JavaScript</strong><br>(UI)</div>
-                    <div class="arch-connector">
-                        <i class="fas fa-arrow-right"></i>
-                        <small>Command</small>
-                    </div>
-
+                    <div class="arch-connector"><i class="fas fa-arrow-right"></i><small>Command</small></div>
                     <div class="arch-box"><strong>Node-RED</strong></div>
-                     <div class="arch-connector">
-                        <i class="fas fa-arrow-right"></i>
-                        <small>Execution</small>
-                    </div>
-
+                     <div class="arch-connector"><i class="fas fa-arrow-right"></i><small>Execution</small></div>
                     <div class="arch-box"><strong>PLC S7-1200</strong></div>
-
                 </div>
             </div>
         </section>
 
-        <section id="tech-stack" class="section fade-in-section">
-            <h2 class="section-title">Technology Stack</h2>
+        <section id="tech-stack" class="section">
+            <h2 class="section-title animate-on-scroll">Technology Stack</h2>
             <div class="grid-layout">
-                <div class="card grid-card">
+                <div class="card grid-card animate-on-scroll" style="--i:1;">
                     <div class="icon"><i class="fas fa-cloud-download-alt"></i></div>
                     <h3>Cloud Data & APIs</h3>
-                    <p>Leverages powerful APIs like the <strong>NASA GMAO Model via Open-Meteo</strong> to fetch real-time and forecasted weather data. This includes crucial parameters like <strong>temperature, humidity, precipitation, and solar radiation,</strong> providing the critical input for predictive analysis and intelligent automation.</p>
+                    <p>Leverages powerful APIs like the <strong>NASA GMAO Model via Open-Meteo</strong> to fetch real-time and forecasted weather data. This includes crucial parameters like <strong>temperature, humidity, precipitation, and solar radiation.</strong></p>
                 </div>
-                <div class="card grid-card">
+                <div class="card grid-card animate-on-scroll" style="--i:2;">
                     <div class="icon"><i class="fab fa-python"></i></div>
                     <h3>Python</h3>
                     <p>Used to write powerful scripts that automatically collect data from the cloud APIs and insert it into the local database for processing and display.</p>
                 </div>
-                <div class="card grid-card">
+                <div class="card grid-card animate-on-scroll" style="--i:3;">
                     <div class="icon"><i class="fas fa-server"></i></div>
                     <h3>PHP & MySQL (XAMPP)</h3>
                     <p>Provides a solid backend to pull data from the MySQL database and serve it to the frontend, while also handling user authentication and other server-side tasks.</p>
                 </div>
-                <div class="card grid-card">
+                <div class="card grid-card animate-on-scroll" style="--i:4;">
                     <div class="icon"><i class="fas fa-code"></i></div>
                     <h3>HTML / CSS / JS</h3>
                     <p>Builds the modern user interface that displays data fetched by PHP and sends user commands via JavaScript to the control layer of the system.</p>
                 </div>
-                <div class="card grid-card">
+                <div class="card grid-card animate-on-scroll" style="--i:5;">
                     <div class="icon"><i class="fas fa-project-diagram"></i></div>
                     <h3>Node-RED</h3>
                     <p>Acts as the central messaging and logic hub. It receives commands from the web interface and translates them into instructions for the PLC hardware.</p>
                 </div>
-                <div class="card grid-card">
+                <div class="card grid-card animate-on-scroll" style="--i:6;">
                     <div class="icon"><i class="fas fa-robot"></i></div>
                     <h3>PLC S7-1200</h3>
                     <p>The on-site control brain that reliably executes commands from Node-RED, controlling physical hardware like pumps, fans, and lights with industrial precision.</p>
@@ -350,26 +537,30 @@ The system's key innovation lies in its ability to intelligently combine two pow
             </div>
         </section>
         
-        <section id="references" class="section fade-in-section">
-            <h2 class="section-title">Data & Reference Sources</h2>
+        <section id="references" class="section">
+            <h2 class="section-title animate-on-scroll">Data & Reference Sources</h2>
             <div class="grid-layout">
-                <div class="card grid-card">
+                <div class="card grid-card animate-on-scroll" style="--i:1;">
+                    <h3>NASA Earth Science Data</h3>
+                    <p>Provides free access to one of the world's largest archives of Earth science data, including satellite observations and climate models like GMAO, which are fundamental to this project's predictive capabilities.</p>
+                </div>
+                <div class="card grid-card animate-on-scroll" style="--i:2;">
+                    <h3>NASA Space Apps Challenge</h3>
+                    <p>The project was inspired by and developed for the world's largest global hackathon, which encourages the use of NASA's open-source data to address real-world challenges on Earth and in space.</p>
+                </div>
+                <div class="card grid-card animate-on-scroll" style="--i:3;">
                     <h3>Vietnam Academy of Agricultural Sciences (VAAS)</h3>
                     <p>A leading research institution providing in-depth knowledge of agricultural science, animal husbandry, and cattle breeds in Vietnam.</p>
                 </div>
-                <div class="card grid-card">
+                <div class="card grid-card animate-on-scroll" style="--i:4;">
                     <h3>Ministry of Agriculture & Rural Development</h3>
                     <p>Provides official information on policies, markets, and advanced farming and animal husbandry techniques.</p>
                 </div>
-                <div class="card grid-card">
+                <div class="card grid-card animate-on-scroll" style="--i:5;">
                     <h3>Food and Agriculture Organization (FAO)</h3>
                     <p>Offers global data, analysis, and reports on agriculture, food security, and the cattle industry.</p>
                 </div>
-                <div class="card grid-card">
-                    <h3>National Geographic</h3>
-                    <p>A source of general information on the biological characteristics, habitats, and behaviors of animal species, including cattle.</p>
-                </div>
-                <div class="card grid-card">
+                <div class="card grid-card animate-on-scroll" style="--i:6;">
                     <h3>Scientific Journals & Articles</h3>
                     <p>Academic materials from reputable sources like the Journal of Integrative Agriculture, Agricultural Journal, and the ScienceDirect database.</p>
                 </div>
@@ -381,11 +572,30 @@ The system's key innovation lies in its ability to intelligently combine two pow
         <p>&copy; 2025 Future Smart Farm</p>
     </footer>
 
-    <script>
-        // JavaScript for fade-in effect on scroll
-        const sections = document.querySelectorAll('.fade-in-section');
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
-        const observer = new IntersectionObserver((entries) => {
+    <script>
+        // --- Particles.js Configuration ---
+        particlesJS('particles-js', {
+            "particles": {
+                "number": { "value": 60, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": "#00ffab" },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.5, "random": true },
+                "size": { "value": 2, "random": true },
+                "line_linked": { "enable": true, "distance": 150, "color": "#00ffab", "opacity": 0.2, "width": 1 },
+                "move": { "enable": true, "speed": 1, "direction": "none", "random": true, "straight": false, "out_mode": "out" }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": false }, "resize": true },
+                "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 0.5 } } }
+            },
+            "retina_detect": true
+        });
+
+        // --- Animate on Scroll ---
+        const scrollObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
@@ -395,9 +605,41 @@ The system's key innovation lies in its ability to intelligently combine two pow
             threshold: 0.1
         });
 
-        sections.forEach(section => {
-            observer.observe(section);
+        document.querySelectorAll('.animate-on-scroll').forEach(section => {
+            scrollObserver.observe(section);
         });
+
+        // --- Mobile Navigation ---
+        const menuIcon = document.querySelector('#menu-icon');
+        const navbar = document.querySelector('.navbar');
+        menuIcon.onclick = () => {
+            menuIcon.classList.toggle('fa-xmark');
+            navbar.classList.toggle('active');
+        };
+
+        // --- Active Nav Link on Scroll ---
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('header nav a');
+
+        window.onscroll = () => {
+            sections.forEach(sec => {
+                let top = window.scrollY;
+                let offset = sec.offsetTop - 150;
+                let height = sec.offsetHeight;
+                let id = sec.getAttribute('id');
+
+                if (top >= offset && top < offset + height) {
+                    navLinks.forEach(links => {
+                        links.classList.remove('active');
+                        document.querySelector('header nav a[href*=' + id + ']').classList.add('active');
+                    });
+                };
+            });
+             // Reset menu on scroll
+            menuIcon.classList.remove('fa-xmark');
+            navbar.classList.remove('active');
+        };
+
     </script>
 </body>
 </html>
